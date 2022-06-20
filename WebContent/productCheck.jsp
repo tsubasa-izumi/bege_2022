@@ -70,7 +70,7 @@
 			</form>
 		</div>
 		<br> <img class="mb-0 pb-0"
-			src="file:///C:/Users/user/Documents/GroupDevelopment5-2/bege/WebContent/pic/vege.png"
+			src="pic/vege.png"
 			alt="" width="500" height="350">
 	</header>
 	<%

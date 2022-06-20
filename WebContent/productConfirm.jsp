@@ -61,8 +61,8 @@
 	</header>
 	<main class="form-signin">
 		<form action="productSelect" method="post">
-		
-			<img class="mb-0 pb-0" src="C:\Users\user\Documents\GroupDevelopment5\グループ開発　ベジチョク\WebContent\pic\vege.png"
+
+			<img class="mb-0 pb-0" src="pic/vege.png"
 				alt="" width="500" height="350">
 			<h1 class="h0 mb-3 fw-normal">購入完了しました</h1>
 		</form>
