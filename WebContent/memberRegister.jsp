@@ -62,7 +62,7 @@
 	<main class="form-signin">
 		<form action="register" method="post">
 			<img class="mb-0 pb-0"
-				src="file:///C:/Users/user/Documents/GroupDevelopment5-2/bege/WebContent/pic/vege.png"
+				src="pic/vege.png"
 				alt="" width="500" height="350">
 			<h1 class="h0 mb-3 fw-normal">会員登録</h1>
 			<div class="container-fluid">
