@@ -80,16 +80,16 @@
 	MemberDTO member = (MemberDTO) session.getAttribute("loginData");
 	%>
 	<%
-	String quantity0 = (String) request.getAttribute("quantity0");
+	int quantity0 = (int) request.getAttribute("quantity0");
 	%>
 	<%
-	String quantity1 = (String) request.getAttribute("quantity1");
+	int quantity1 = (int) request.getAttribute("quantity1");
 	%>
 	<%
-	String quantity2 = (String) request.getAttribute("quantity2");
+	int quantity2 = (int) request.getAttribute("quantity2");
 	%>
 	<%
-	String quantity3 = (String) request.getAttribute("quantity3");
+	int quantity3 = (int) request.getAttribute("quantity3");
 	%>
 	<%
 	ManagementDTO dto0 = (ManagementDTO) request.getAttribute("dto0");
@@ -134,19 +134,18 @@
 	</div>
 	<form action="ProductConfirmAction" method="post">
 		<input type="hidden" name=itemId0 value="<%=dto0.getItem_id()%>">
-		<input type="hidden" name=total_price0
-			value="<%=dto0.getItem_price()%>"> <input type="hidden"
-			name=quantity0 value="<%=quantity0%>"> <input type="hidden"
-			name=itemId1 value="<%=dto1.getItem_id()%>"> <input
-			type="hidden" name=total_price1 value="<%=dto1.getItem_price()%>">
-		<input type="hidden" name=quantity1 value="<%=quantity1%>"> <input
-			type="hidden" name=itemId2 value="<%=dto2.getItem_id()%>"> <input
-			type="hidden" name=total_price2 value="<%=dto2.getItem_price()%>">
-		<input type="hidden" name=quantity2 value="<%=quantity2%>"> <input
-			type="hidden" name=itemId3 value="<%=dto3.getItem_id()%>"> <input
-			type="hidden" name=total_price3 value="<%=dto3.getItem_price()%>">
-		<input type="hidden" name=quantity3 value="<%=quantity3%>"> <input
-			type="hidden" name=user_id value="<%=member.getUser_id()%>">
+		<input type="hidden" name=total_price0 value="<%=dto0.getItem_price()%>">
+		<input type="hidden" name=quantity0 value="<%=quantity0%>">
+		<input type="hidden" name=itemId1 value="<%=dto1.getItem_id()%>">
+		<input type="hidden" name=total_price1 value="<%=dto1.getItem_price()%>">
+		<input type="hidden" name=quantity1 value="<%=quantity1%>">
+		<input type="hidden" name=itemId2 value="<%=dto2.getItem_id()%>">
+		<input type="hidden" name=total_price2 value="<%=dto2.getItem_price()%>">
+		<input type="hidden" name=quantity2 value="<%=quantity2%>">
+		<input type="hidden" name=itemId3 value="<%=dto3.getItem_id()%>">
+		<input type="hidden" name=total_price3 value="<%=dto3.getItem_price()%>">
+		<input type="hidden" name=quantity3 value="<%=quantity3%>">
+		<input type="hidden" name=user_id value="<%=member.getUser_id()%>">
 		<br>
 		<form action="productConfirm.jsp">
 			<div class="row col-sm-3 offset-9 text-right">
