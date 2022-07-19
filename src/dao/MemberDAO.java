@@ -87,7 +87,6 @@ public class MemberDAO {
 			this.stmt = con.prepareStatement(sql.toString());
 			stmt.setString(1, mail);
 			ResultSet rs = stmt.executeQuery();
-			System.out.println(stmt);
 			while (rs.next()) {
 				rtnList.setUser_id(rs.getInt(USER_ID));
 				rtnList.setUser_mail(rs.getString(MAILADDRESS));

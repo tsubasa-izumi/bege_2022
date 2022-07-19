@@ -1,7 +1,5 @@
 package com.page;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.ManagementDAO;
-import dao.MemberDAO;
 import dto.ManagementDTO;
 import dto.MemberDTO;
-import src.util.dbutil;
+import logicCheck.LoginLogicCheck;
+import service.LoginService;
+import service.ManagementService;
 public class LoginAction extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
@@ -23,41 +21,35 @@ public class LoginAction extends HttpServlet {
 		String mail = req.getParameter("mail_address");
 		String pass = req.getParameter("pass");
 
-		System.out.println(mail);
-		System.out.println(pass);
-
-		Connection con = dbutil.getConnection();
-
-		ManagementDAO manedao = new ManagementDAO(con);
 		List<ManagementDTO> maneList = new ArrayList<>();
-
-		MemberDAO memdao = new MemberDAO(con);
+		LoginService loginService = new LoginService();
+		LoginLogicCheck loginLogicCheck = new LoginLogicCheck();
 		MemberDTO loginData = new MemberDTO();
+		ManagementService managementService = new ManagementService();
+		List<String> errorList;
 
-		//DAOのメソッド　引数
 		try {
-			maneList =manedao.selectItem();
-
-			loginData = memdao.select(mail);
-
-			System.out.println(loginData);
-			if (loginData.getUser_id() == 0) {
-			req.setAttribute("error", "メールアドレスまたはパスワードが間違っています");
+			loginData = loginService.loginService(mail);
+			errorList = loginLogicCheck.loginlogicCheck(loginData, mail, pass);
+			//errorListにエラーメッセージが格納されている場合、入力値とエラーメッセージをリクエストスコープにセットしてログイン画面に遷移する。
+			if(!(errorList == null || errorList.size() == 0)) {
+				req.setAttribute("error", errorList);
+				req.setAttribute("mail_address", mail);
+				req.setAttribute("pass", pass);
 				req.getRequestDispatcher("login.jsp").forward(req, res);
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-
+			maneList = managementService.managementService();
+		//例外発生時の処理
+		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			errorList = loginLogicCheck.unExpectedError();
+			req.setAttribute("error", errorList);
+			req.getRequestDispatcher("login.jsp").forward(req, res);
 		}
-		//loginData.get(0); //mail
-		//loginData.get(1); //password
+		//セッションに商品情報とログイン情報をセットして商品選択・購入画面に遷移する。
 		session.setAttribute("maneList", maneList);
 		session.setAttribute("loginData", loginData);
-		req.setAttribute("user_mail", mail);
-		req.setAttribute("user_password", pass);//ここsession
-		System.out.println(mail);
-		System.out.println(pass);
 		req.getRequestDispatcher("productSelect.jsp").forward(req, res);
 	}
 }

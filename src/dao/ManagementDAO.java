@@ -46,7 +46,6 @@ public class ManagementDAO {
 		sql.append(" FROM ");
 		sql.append("     management m INNER JOIN farmer f");
 		sql.append("         ON m.farmer_id = f.farmer_id");
-		System.out.println(sql);
 		try {
 
 			this.stmt = con.prepareStatement(sql.toString());
