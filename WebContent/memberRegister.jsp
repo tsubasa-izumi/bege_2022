@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!doctype html>
+<%@ page import = "java.util.List"%>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -65,6 +66,22 @@
 				src="pic/vege.png"
 				alt="" width="500" height="350">
 			<h1 class="h0 mb-3 fw-normal">会員登録</h1>
+			<%
+			List<String> error = (List<String>) request.getAttribute("error");
+			%>
+			<%
+				if (error != null) {
+			%>
+			<%
+					for (int i = 0; i < error.size(); i++) {
+			%>
+						<p style="color:red"><%=error.get(i)%></p>
+			<%
+					}
+			%>
+			<%
+				}
+			%>
 			<div class="container-fluid">
 				<div class="row justify-content-center">
 					<div class="col-6">
@@ -89,18 +106,18 @@
 						<label for="inputEmail" class="visually-hidden"> 秘密の質問の答え</label> <input
 							type="text" name="ans" id="inputEmail"
 							class="form-control" placeholder="秘密の質問の答え" required> <br>
-						<label for="inputPassword" class="visually-hidden">住所</label> <input
+						<label for="inputPassword" class="visually-hidden">郵便番号</label> <input
 							type="text" name="address" id="inputPassword"
-							class="form-control" placeholder="住所" required> <br>
+							class="form-control" placeholder="郵便番号" required> <br>
 						<label for="inputEmail" class="visually-hidden"> 都道府県</label> <input
 							type="text" name="prefecture" id="inputEmail"
 							class="form-control" placeholder="都道府県" required> <br>
 						<label for="inputPassword" class="visually-hidden">市区町村</label> <input
 							type="text" name="city" id="inputPassword"
 							class="form-control" placeholder="市区町村" required><br>
-						<label for="inputPassword" class="visually-hidden">郵便番号</label> <input
+						<label for="inputPassword" class="visually-hidden">番地</label> <input
 							type="text" name="housenumber" id="inputPassword"
-							class="form-control" placeholder="郵便番号" required><br>
+							class="form-control" placeholder="番地" required><br>
 						<label for="inputEmail" class="visually-hidden"> カード番号</label> <input
 							type="text" name="cardnumber" id="inputEmail"
 							class="form-control" placeholder="カード番号" required>

@@ -113,18 +113,11 @@ public class MemberDAO {
 				+ "," + "answer" + "," +"user_cardnumber"+ "," +"user_meigi"+ "," +"card_limit"+ "," + "user_code"
 				+ "," + "user_address" + "," + "user_prefecture" + "," + "uesr_city" + ","
 				+"user_housenumber" + ")");
-		//0外す〇
-		//カラム指定をしてINSERT〇
-		/*
-		 * INSERT INTO tbl_name (col_name1, col_name2, ...)
-		 * VALUES (value1, value2, ...)
-		 * */
 		sql.append(" VALUES " + "('" + name + "','" + kana + "','" + mail + "','" + telnumber + "','"
 				+ password + "','" + ques
 				+ "','" + ans + "','" + cardnumber + "','" + meigi + "'," + cardlimit + "," + code
 				+ ",'" + address + "','" + prefecture + "','" + city + "','"
 				+ housenumber + "');");
-		System.out.println(sql);
 		try {
 			this.stmt = con.prepareStatement(sql.toString());
 			result = stmt.executeUpdate();
@@ -132,6 +125,7 @@ public class MemberDAO {
 			dbutil.closeStatement(this.stmt);
 		}
 	}
+
 	public void memUpdate(String name, String knname, String tel, String mail, String pass, String question,
 			String answer, String address, String prefecture, String city, String housenum, String code, int limit,
 			String meigi) throws SQLException, ClassNotFoundException {
