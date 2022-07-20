@@ -6,5 +6,5 @@ public class TableConstants {
 	public static final String MEMBER_TABLE = "member";
 
 	//カラム名
-	public static final String COLUMN_USER_MAILE = "user_maile";
+	public static final String COLUMN_USER_MAIL = "user_mail";
 }
