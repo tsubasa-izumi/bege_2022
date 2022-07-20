@@ -6,7 +6,7 @@ public class StringConstants {
 	public static final String KANJI_NAME = "名前";
 	public static final String FURIGANA_NAME = "フリガナ";
 	public static final String PHONE_NUMBER = "電話番号";
-	public static final String MAILE_ADDRESS = "メールアドレス";
+	public static final String MAIL_ADDRESS = "メールアドレス";
 	public static final String PASSWORD = "パスワード";
 	public static final String SEACRET_QUESTION = "秘密の質問";
 	public static final String SEACRET_QUESTION_ANSWER = "秘密の質問の答え";
