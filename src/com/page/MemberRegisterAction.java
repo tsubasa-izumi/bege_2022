@@ -35,9 +35,9 @@ public class MemberRegisterAction extends HttpServlet {
 
 		try {
 			errorList = memberRegisterLogicCheck.memberRegisterLogicCheck(name, kana, telnumber, mail, password, ques,
-					ans, address, prefecture, cardnumber, city, housenumber, code, cardlimit, meigi);
+					ans, address, prefecture, city, housenumber, cardnumber,  code, cardlimit, meigi);
 			memberRegisterService.memberRegisterService(name, kana, telnumber, mail, password, ques, ans, address,
-					prefecture, cardnumber, city, housenumber, code, cardlimit, meigi);
+					prefecture, city, housenumber, cardnumber, code, cardlimit, meigi);
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

@@ -1,6 +1,9 @@
 package logicCheck;
 
 
+import static jp.co.vaile.nerva.commonprocess.MasterContents.*;
+import static jp.co.vaile.nerva.commonprocess.errormessage.CommonConstants.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +32,16 @@ public class MemberRegisterLogicCheck {
 	 */
 	public List<String> memberRegisterLogicCheck(String name, String kana, String telnumber, String mail, String password,
 			String ques, String ans, String address,
-			String prefecture, String cardnumber, String city, String housenumber, String code,
+			String prefecture, String city, String housenumber, String cardnumber, String code,
 			String cardlimit, String meigi){
 		//errorList = errorMsg.errorMsgNullCheck(checkName(name), errorList);
 		//errorList = errorMsg.errorMsgNullCheck(checkKana(kana), errorList);
 		//errorList = errorMsg.errorMsgNullCheck(checkTelnumber(telnumber), errorList);
 		//errorList = errorMsg.errorMsgNullCheck(checkMail(mail), errorList);
+		//errorList = errorMsg.errorMsgNullCheck(checkPassword(password), errorList);
+		//errorList = errorMsg.errorMsgNullCheck(checkQuestion(ques), errorList);
+		//errorList = errorMsg.errorMsgNullCheck(checkAnswer(ans), errorList);
+
 		return errorList;
 	}
 
@@ -43,7 +50,7 @@ public class MemberRegisterLogicCheck {
 	 * @return errorList
 	 */
 	public List<String> unExpectedError() {
-		//errorList = errorMsg.errorMsgNullCheck(errorMsg.returnErrorMsg(CommonConstants.), errorList);
+		//errorList = errorMsg.errorMsgNullCheck(errorMsg.returnErrorMsg(ERROR), errorList);
 		return errorList;
 	}
 
@@ -54,9 +61,9 @@ public class MemberRegisterLogicCheck {
 	 */
 	private String checkName(String name) {
 		//String[] msgElement = { KANJI_NAME, "50" };
- 		// 入力値が50文字以上の場合、エラーメッセージを返す
-		if (lengthCheck.isStringLength(name, 50) == false) {
-			return errorMsg.returnErrorMsg(INPUT_LENGTH_ERROR_MESSAGE, msgElement);
+ 		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(name, 50) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
 		}
 		return null;
 	}
@@ -68,9 +75,9 @@ public class MemberRegisterLogicCheck {
 	 */
 	private String checkKana(String kana) {
 		//String[] msgElement = { FURIGANA_NAME, "50" };
-		// 入力値が50文字以上の場合、エラーメッセージを返す
-		if (lengthCheck.isStringLength(kana, 50) == false) {
-			return errorMsg.returnErrorMsg(INPUT_LENGTH_ERROR_MESSAGE, msgElement);
+		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(kana, 50) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
 		}
 		return null;
 	}
@@ -82,9 +89,9 @@ public class MemberRegisterLogicCheck {
 	 */
 	private String checkTelnumber(String telnumber) {
 		//String[] msgElement = { PHONE_NUMBER, "50" };
-		// 入力値が11文字以上の場合、エラーメッセージを返す
-		if (lengthCheck.isStringLength(telnumber, 11) == false) {
-			return errorMsg.returnErrorMsg(INPUT_LENGTH_ERROR_MESSAGE, msgElement);
+		// 入力値が11文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(telnumber, 11) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
 		}
 		// 入力値が半角数字ではない場合、エラーメッセージを返す
 		if (harfWidthNumFormatCheck.isCorrectFormat(telnumber) == false) {
@@ -100,9 +107,9 @@ public class MemberRegisterLogicCheck {
 	 */
 	private String checkMail(String mail) {
 		//String[] msgElement = { MAIL_ADDRESS, "256" };
-		// 入力値が256文字以上の場合、エラーメッセージを返す
-		if (lengthCheck.isStringLength(mail, 256) == false) {
-			return errorMsg.returnErrorMsg(INPUT_LENGTH_ERROR_MESSAGE, msgElement);
+		// 入力値が256文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(mail, 256) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
 		}
 		// 入力値が半角英数字ではない場合、エラーメッセージを返す
 		if (harfWidthAlphanumAtSignFormatCheck.isCorrectFormat(mail) == false) {
@@ -113,9 +120,105 @@ public class MemberRegisterLogicCheck {
 		if (mailGFormatCheck.isCorrectFormat(mail) == false) {
 			return errorMsg.returnErrorMsg(FORMAT_INPUT_ERROR_MESSAGE, msgElement);
 		}
+		// 入力値がすでにDBに登録されている場合、エラーメッセージを返す
+		int numMail = checkDuplicateDAO.checkDuplicate(mail, MEMBER_TABLE, COLUMN_USER_MAIL);
+		if (numMail != 0) {
+			return errorMsg.returnErrorMsg(INPUT_DUPLICATE_ERROR_MESSAGE, msgElement);
+		}
 		return null;
 	}
 
+	/**
+	 * パスワードのエラーチェック
+	 * @param password
+	 * @return エラーメッセージ
+	 */
+	private String checkPassword(String password) {
+		//String[] minMsgElement = { PASSWORD, "4" };
+		//String[] maxMsgElement = { PASSWORD, "10" };
+		// 入力値が4文字に満たない場合、エラーメッセージを返す
+		if (lengthCheck.isMinStringLength(password, 4) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MIN_LENGTH_ERROR_MESSAGE, minMsgElement);
+		}
+		// 入力値が10文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(password, 10) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, maxMsgElement);
+		}
+		// 入力値が半角英数字ではない場合、エラーメッセージを返す
+		if (harfWidthAlphanumAtSignFormatCheck.isCorrectFormat(telnumber) == false) {
+			return errorMsg.returnErrorMsg(HALFWIDTH_ALPHANUMERIC_ERROR_MESSAGE, minMsgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * 秘密の質問のエラーチェック
+	 * @param ques
+	 * @return エラーメッセージ
+	 */
+	private String checkQuestion(String ques) {
+		//String[] msgElement = { SEACRET_QUESTION, "50" };
+ 		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(ques, 50) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * 秘密の質問の答えのエラーチェック
+	 * @param ans
+	 * @return エラーメッセージ
+	 */
+	private String checkAnswer(String ans) {
+		//String[] msgElement = { SEACRET_QUESTION_ANSWER, "50" };
+ 		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(ans, 50) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * 郵便番号のエラーチェック
+	 * @param address
+	 * @return エラーメッセージ
+	 */
+	private String checkAddressPost(String address) {
+		//String[] msgElement = { ADDRESS_POST, "7" };
+		// 入力値が7文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(address, 7) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		// 入力値が半角数字ではない場合、エラーメッセージを返す
+		if (harfWidthNumFormatCheck.isCorrectFormat(address) == false) {
+			return errorMsg.returnErrorMsg(HARF_WIDTH_NUM_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * 都道府県のエラーチェック
+	 * @param prefecture
+	 * @return エラーメッセージ
+	 */
+	private String checkPrefecture(String prefecture) {
+		//String[] msgElement = { ADDRESS_PREFECTURE, "4" };
+ 		// 入力値が4文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(prefecture, 4) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	private String checkPrefecture(String prefecture) {
+		//String[] msgElement = { ADDRESS_PREFECTURE, "4" };
+ 		// 入力値が4文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(prefecture, 4) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
 
 }
 

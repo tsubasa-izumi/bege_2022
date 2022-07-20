@@ -101,7 +101,7 @@ public class MemberDAO {
 
 	public void mbrInsert(String name, String kana, String telnumber, String mail, String password,
 			String ques,
-			String ans, String address, String prefecture, String cardnumber, String city, String housenumber,
+			String ans, String address, String prefecture, String city, String housenumber, String cardnumber,
 			int code, int cardlimit, String meigi) throws SQLException {
 		//会員登録 //スペル変更済み
 		StringBuilder sql = new StringBuilder();
