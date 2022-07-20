@@ -43,6 +43,7 @@
 	-moz-user-select: none;
 	user-select: none;
 }
+
 @media ( min-width : 768px) {
 	.bd-placeholder-img-lg {
 		font-size: 3.5rem;
@@ -62,86 +63,88 @@
 				</div>
 			</form>
 			<form method="post" action="productBuy.jsp">
-
-
 		</div>
-		<br> <img class="mb-0 pb-0"
-			src="pic/img1.gif"
-			alt="野菜イメージ" width="100%" height="100%">
+		<br> <img class="mb-0 pb-0" src="pic/img1.gif" alt="野菜イメージ"
+			width="100%" height="100%">
 	</header>
 	<main class="form-signin">
 		<br>
 
-			<h1 class="h0 mb-3 fw-normal">商品をお選び下さい</h1>
+		<h1 class="h0 mb-3 fw-normal">商品をお選び下さい</h1>
 
-			<table border="1" style="border-collapse: collapse" >
-		<tr>
-			<td><img src="pic/misakik.gif" alt="岬キャベツ" width="310"
-				height="200">岬キャベツ</td>
+		<table border="1" style="border-collapse: collapse">
+			<tr>
+				<td><img src="pic/misakik.gif" alt="岬キャベツ" width="310"
+					height="200">
+					<p>岬キャベツ</p></td>
 
-			<td><img src="pic/hakusai.gif" alt="白菜" width="310" height="200">白菜</td>
-			<td><img src="pic/kourai.gif" alt="高麗人参" width="310"
-				height="200">高麗人参</td>
-			<td><img src="pic/tomato2.gif" alt="新鮮トマト" width="310"
-				height="200">新鮮トマト</td>
-		</tr>
+				<td><img src="pic/hakusai.gif" alt="白菜" width="310"
+					height="200">
+					<p>白菜</p></td>
+
+				<td><img src="pic/kourai.gif" alt="高麗人参" width="310"
+					height="200">
+					<p>高麗人参</p></td>
+
+				<td><img src="pic/tomato2.gif" alt="新鮮トマト" width="310"
+					height="200">
+					<p>新鮮トマト</p></td>
+			</tr>
 		</table>
-<br>
-<br>
-<div class="navbar navbar-dark bg-default shadow-sm">
+		<br> <br>
+		<div class="navbar navbar-dark bg-default shadow-sm">
 
-				<div class="container">
+			<div class="container">
 
-<form method="post" action="productBuy.jsp">
+				<form method="post" action="productBuy.jsp">
 
 
-		<%
-		ArrayList<ManagementDTO> list = (ArrayList<ManagementDTO>) session.getAttribute("maneList");
-		%>
-		<%
-		for (int i = 0; i < list.size(); i++) {
-		%>
-		<select name="idItem<%=i%>">
-			<option value="1">岬キャベツ</option>
+					<%
+						ArrayList<ManagementDTO> list = (ArrayList<ManagementDTO>) session.getAttribute("maneList");
+					%>
+					<%
+						for (int i = 0; i < list.size(); i++) {
+					%>
+					<select name="idItem<%=i%>">
+						<option value="1">岬キャベツ</option>
 
-			<option value="2">白菜</option>
+						<option value="2">白菜</option>
 
-			<option value="3">高麗人参</option>
+						<option value="3">高麗人参</option>
 
-			<option value="4">新鮮トマト</option>
-		</select> <select name="ItemCount<%=i%>">
-			<option value="0">0</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-		</select>
-		<%
-		}
-		%>
-			<div class="navbar navbar-dark bg-default shadow-sm">
+						<option value="4">新鮮トマト</option>
+					</select> <select name="ItemCount<%=i%>">
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+					<%
+						}
+					%>
+					<div class="navbar navbar-dark bg-default shadow-sm">
 
-				<div class="container">
-					<input class="w-30 btn btn-lg btn-success" type="submit"
-						value="購入">
-				</div>
+						<div class="container">
+							<input class="w-30 btn btn-lg btn-success" type="submit"
+								value="購入">
+						</div>
+					</div>
+
+				</form>
 			</div>
-
-	</form>
-</div>
-</main>
+	</main>
 
 	<hr>
-<div>
-<a href="memberEdit.jsp">会員情報の編集はこちら</a>
-</div>
-<div>
-<br>
-<a href="memberDelete.jsp">退会をご希望の方はこちら</a>
+	<div>
+		<a href="memberEdit.jsp">会員情報の編集はこちら</a>
+	</div>
+	<div>
+		<br> <a href="memberDelete.jsp">退会をご希望の方はこちら</a>
 
 
-</div>
+	</div>
 
 
 
