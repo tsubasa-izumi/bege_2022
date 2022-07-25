@@ -1,6 +1,7 @@
 package com.page;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -36,9 +37,13 @@ public class MemberRegisterAction extends HttpServlet {
 		try {
 			errorList = memberRegisterLogicCheck.memberRegisterLogicCheck(name, kana, telnumber, mail, password, ques,
 					ans, address, prefecture, city, housenumber, cardnumber,  code, cardlimit, meigi);
+			if(!(errorList == null || errorList.size() == 0)) {
+				req.setAttribute("error", errorList);
+				req.getRequestDispatcher("memberRegister.jsp").forward(req, res);
+			}
 			memberRegisterService.memberRegisterService(name, kana, telnumber, mail, password, ques, ans, address,
 					prefecture, city, housenumber, cardnumber, code, cardlimit, meigi);
-		} catch (IOException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			errorList = memberRegisterLogicCheck.unExpectedError();

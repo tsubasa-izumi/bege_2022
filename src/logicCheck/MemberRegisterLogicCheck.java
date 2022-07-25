@@ -6,6 +6,7 @@ import static commonprocess.errormessage.StringConstants.*;
 import static commonprocess.errormessage.TableConstants.*;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class MemberRegisterLogicCheck {
 	Connection con = dbutil.getConnection();
 	ErrorMsg errorMsg = new ErrorMsg();
 	LengthCheck lengthCheck = new LengthCheck();
-	HarfWidthAlphanumFormatCheck harfWidthAlphanumFormatCheck = new HarfWidthAlphanumFormatCheck();
-	HarfWidthNumFormatCheck harfWidthNumFormatCheck = new HarfWidthNumFormatCheck();
+	FormatCheck harfWidthAlphanumFormatCheck = new HarfWidthAlphanumFormatCheck();
+	FormatCheck harfWidthNumFormatCheck = new HarfWidthNumFormatCheck();
 	CheckDuplicateDAO checkDuplicateDAO = new CheckDuplicateDAO(con);
 
 
@@ -47,11 +48,13 @@ public class MemberRegisterLogicCheck {
 	 * @param cardlimit
 	 * @param meigi
 	 * @return errorList
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
 	public List<String> memberRegisterLogicCheck(String name, String kana, String telnumber, String mail, String password,
 			String ques, String ans, String address,
 			String prefecture, String city, String housenumber, String cardnumber, String code,
-			String cardlimit, String meigi){
+			String cardlimit, String meigi) throws ClassNotFoundException, SQLException{
 		errorList = errorMsg.errorMsgNullCheck(checkName(name), errorList);
 		errorList = errorMsg.errorMsgNullCheck(checkKana(kana), errorList);
 		errorList = errorMsg.errorMsgNullCheck(checkTelnumber(telnumber), errorList);
@@ -59,7 +62,14 @@ public class MemberRegisterLogicCheck {
 		errorList = errorMsg.errorMsgNullCheck(checkPassword(password), errorList);
 		errorList = errorMsg.errorMsgNullCheck(checkQuestion(ques), errorList);
 		errorList = errorMsg.errorMsgNullCheck(checkAnswer(ans), errorList);
-
+		errorList = errorMsg.errorMsgNullCheck(checkAddressPost(address), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkPrefecture(prefecture), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkCity(city), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkHouseNumber(housenumber), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkCardNumber(cardnumber), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkCode(code), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkCardLimit(cardlimit), errorList);
+		errorList = errorMsg.errorMsgNullCheck(checkMeigi(meigi), errorList);
 		return errorList;
 	}
 
@@ -106,7 +116,7 @@ public class MemberRegisterLogicCheck {
 	 * @return エラーメッセージ
 	 */
 	private String checkTelnumber(String telnumber) {
-		String[] msgElement = { PHONE_NUMBER, "50" };
+		String[] msgElement = { PHONE_NUMBER, "11" };
 		// 入力値が11文字を超えている場合、エラーメッセージを返す
 		if (lengthCheck.isMaxStringLength(telnumber, 11) == false) {
 			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
@@ -122,8 +132,10 @@ public class MemberRegisterLogicCheck {
 	 * メールアドレスのエラーチェック
 	 * @param mail
 	 * @return エラーメッセージ
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
-	private String checkMail(String mail) {
+	private String checkMail(String mail) throws ClassNotFoundException, SQLException {
 		String[] msgElement = { MAIL_ADDRESS, "256" };
 		// 入力値が256文字を超えている場合、エラーメッセージを返す
 		if (lengthCheck.isMaxStringLength(mail, 256) == false) {
@@ -133,9 +145,9 @@ public class MemberRegisterLogicCheck {
 		if (harfWidthAlphanumFormatCheck.isCorrectFormat(mail) == false) {
 			return errorMsg.returnErrorMsg(HALFWIDTH_ALPHANUMERIC_ERROR_MESSAGE, msgElement);
 		}
-		FormatCheck mailGFormatCheck = new MailFormatCheck();
+		FormatCheck mailFormatCheck = new MailFormatCheck();
 		// 入力値が@を含んでいない場合、エラーメッセージを返す
-		if (mailGFormatCheck.isCorrectFormat(mail) == false) {
+		if (mailFormatCheck.isCorrectFormat(mail) == false) {
 			return errorMsg.returnErrorMsg(FORMAT_INPUT_ERROR_MESSAGE, msgElement);
 		}
 		// 入力値がすでにDBに登録されている場合、エラーメッセージを返す
@@ -229,14 +241,95 @@ public class MemberRegisterLogicCheck {
 		return null;
 	}
 
-	private String checkPrefecture(String prefecture) {
-		String[] msgElement = { ADDRESS_PREFECTURE, "4" };
- 		// 入力値が4文字を超えている場合、エラーメッセージを返す
-		if (lengthCheck.isMaxStringLength(prefecture, 4) == false) {
+	/**
+	 * 市区町村のエラーチェック
+	 * @param city
+	 * @return　エラーメッセージ
+	 */
+	private String checkCity(String city) {
+		String[] msgElement = { ADDRESS_CITY, "50" };
+ 		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(city, 50) == false) {
 			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
 		}
 		return null;
 	}
 
+	/**
+	 * 番地のエラーチェック
+	 * @param housenumber
+	 * @return エラーメッセージ
+	 */
+	private String checkHouseNumber(String housenumber) {
+		String[] msgElement = { HOUSE_NUMBER, "50" };
+ 		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(housenumber, 50) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * カード番号のエラーチェック
+	 * @param cardnumber
+	 * @return エラーメッセージ
+	 */
+	private String checkCardNumber(String cardnumber) {
+		String[] msgElement = { CARD_ADDRESS_NUMBER, "16" };
+ 		// 入力値が16文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(cardnumber, 16) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		// 入力値が半角数字ではない場合、エラーメッセージを返す
+		if (harfWidthNumFormatCheck.isCorrectFormat(cardnumber) == false) {
+			return errorMsg.returnErrorMsg(HARF_WIDTH_NUM_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * セキュリティーコードのエラーチェック
+	 * @param code
+	 * @return エラーメッセージ
+	 */
+	private String checkCode(String code) {
+		String[] msgElement = { CARD_SECURITY_CODE, "11" };
+ 		// 入力値が11文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(code, 11) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		// 入力値が半角数字ではない場合、エラーメッセージを返す
+		if (harfWidthNumFormatCheck.isCorrectFormat(code) == false) {
+			return errorMsg.returnErrorMsg(HARF_WIDTH_NUM_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	/**
+	 * 有効期限のエラーチェック
+	 * @param cardlimit
+	 * @return エラーメッセージ
+	 */
+	private String checkCardLimit(String cardlimit) {
+		String[] msgElement = { CARD_EXPIRY, "11" };
+ 		// 入力値が11文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(cardlimit, 11) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		// 入力値が半角数字ではない場合、エラーメッセージを返す
+		if (harfWidthNumFormatCheck.isCorrectFormat(cardlimit) == false) {
+			return errorMsg.returnErrorMsg(HARF_WIDTH_NUM_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
+
+	private String checkMeigi(String meigi) {
+		String[] msgElement = { CARD_NAME, "50" };
+ 		// 入力値が50文字を超えている場合、エラーメッセージを返す
+		if (lengthCheck.isMaxStringLength(meigi, 50) == false) {
+			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
+		}
+		return null;
+	}
 }
 
