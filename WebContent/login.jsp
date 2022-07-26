@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!doctype html>
+<%@ page import = "java.util.List"%>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -50,15 +51,6 @@
 <link href="signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
-<%
-	String error = (String) request.getAttribute("error");
-	%><%
-			if (error != null) {
-			%>
-			<h3><%=error%></h3>
-			<%
-			}
-			%>
 	<header>
 		<div class="navbar navbar-dark bg-default shadow-sm">
 			<form action="hp.html">
@@ -73,15 +65,33 @@
 			<img class="mb-0 pb-0" src="pic/vege.png"
 				alt="" width="500" height="350">
 			<h1 class="h0 mb-3 fw-normal">ログインする</h1>
+			<%
+			List<String> error = (List<String>) request.getAttribute("error");
+			%>
+			<%
+				if (error != null) {
+			%>
+			<%
+					for (int i = 0; i < error.size(); i++) {
+			%>
+
+				<p style="color:red"><%=error.get(i)%></p>
+
+			<%
+					}
+			%>
+			<%
+				}
+			%>
 			<div class="container-fluid">
 				<div class="row justify-content-center">
 					<div class="col-6">
 						<label for="inputEmail" class="visually-hidden"> メールアドレス</label> <input
 							type="text" name="mail_address" id="inputEmail"
-							class="form-control" placeholder="メールアドレス" required>
+							class="form-control" placeholder="メールアドレス" required >
 						<br> <label for="inputPassword" class="visually-hidden">パスワード</label>
 						<input type="password" name="pass" id="inputPassword"
-							class="form-control" placeholder="パスワード" required>
+							class="form-control" placeholder="パスワード" required >
 						<div class="checkbox mb-3">
 							<br>
 							<tr>
