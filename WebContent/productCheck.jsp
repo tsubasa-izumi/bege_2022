@@ -55,6 +55,12 @@
 <link href="signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
+
+<%
+//リクエストスコープからのデータの取得
+String errorList = (String)request.getAttribute("errorList");
+%>
+
 	<header>
 		<div class="navbar navbar-dark bg-default shadow-sm">
 			<form action="logOut.jsp">
@@ -133,7 +139,7 @@
 		合計額<%=totalsum%>円
 	</div>
 	<form action="ProductConfirmAction" method="post">
-		<input type="hidden" name=itemId0 value="<%=dto0.getItem_id()%>">
+		<input type="hidden" name=cabbage value="<%=dto0.getItem_id()%>">
 		<input type="hidden" name=total_price0
 			value="<%=dto0.getItem_price()%>"> <input type="hidden"
 			name=quantity0 value="<%=quantity0%>"> <input type="hidden"

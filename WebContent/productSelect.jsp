@@ -70,70 +70,82 @@
 	<main class="form-signin">
 		<br>
 
-		<h1 class="h0 mb-3 fw-normal">商品をお選び下さい</h1>
-
-		<table border="1" style="border-collapse: collapse">
-			<tr>
-				<td><img src="pic/misakik.gif" alt="岬キャベツ" width="310"
-					height="200">
-					<p>岬キャベツ</p></td>
-
-				<td><img src="pic/hakusai.gif" alt="白菜" width="310"
-					height="200">
-					<p>白菜</p></td>
-
-				<td><img src="pic/kourai.gif" alt="高麗人参" width="310"
-					height="200">
-					<p>高麗人参</p></td>
-
-				<td><img src="pic/tomato2.gif" alt="新鮮トマト" width="310"
-					height="200">
-					<p>新鮮トマト</p></td>
-			</tr>
-		</table>
-		<br> <br>
-		<div class="navbar navbar-dark bg-default shadow-sm">
-
-			<div class="container">
-
-				<form method="post" action="productBuy.jsp">
+		<h1 class="h0 mb-3 fw-normal">商品の個数をお選び下さい</h1>
 
 
-					<%
-						ArrayList<ManagementDTO> list = (ArrayList<ManagementDTO>) session.getAttribute("maneList");
-					%>
-					<%
-						for (int i = 0; i < list.size(); i++) {
-					%>
-					<select name="idItem<%=i%>">
-						<option value="1">岬キャベツ</option>
+		<form method="post" action="productBuy.jsp">
 
-						<option value="2">白菜</option>
 
-						<option value="3">高麗人参</option>
+			<%
+				ArrayList<ManagementDTO> list = (ArrayList<ManagementDTO>) session.getAttribute("maneList");
+				{
+			%>
+			<%--  			<%
+				for (int i = 0; i < list.size(); i++) {
+			%>  --%>
 
-						<option value="4">新鮮トマト</option>
-					</select> <select name="ItemCount<%=i%>">
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-					<%
-						}
-					%>
-					<div class="navbar navbar-dark bg-default shadow-sm">
+			<table border="1" style="border-collapse: collapse">
+				<tr>
 
-						<div class="container">
-							<input class="w-30 btn btn-lg btn-success" type="submit"
-								value="購入">
-						</div>
-					</div>
+					<td><img src="pic/misakik.gif" alt="岬キャベツ" width="310"
+						height="200">
+						<p>岬キャベツ</p> <select name="cabbageCount">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+					</select></td>
 
-				</form>
+
+					<td><img src="pic/hakusai.gif" alt="白菜" width="310"
+						height="200">
+						<p>白菜</p> <select name="ChinesecCabbageCount">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+					</select></td>
+
+					<td><img src="pic/kourai.gif" alt="高麗人参" width="310"
+						height="200">
+						<p>高麗人参</p> <select name="GinsengCount">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+					</select></td>
+
+					<td><img src="pic/tomato2.gif" alt="新鮮トマト" width="310"
+						height="200">
+						<p>新鮮トマト</p> <select name="tomatoCount">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+					</select></td>
+				</tr>
+			</table>
+			<br> <br>
+			<%
+				}
+			%>
+
+
+			<div class="navbar-dark bg-default  btn-center">
+				<br> <input class="btn btn-lg btn-success " type="submit"
+					value="購入">
 			</div>
+
+
+		</form>
 	</main>
 
 	<hr>
@@ -163,40 +175,4 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

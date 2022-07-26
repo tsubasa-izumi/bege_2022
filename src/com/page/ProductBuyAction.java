@@ -17,27 +17,21 @@ import src.util.dbutil;
 
 public class ProductBuyAction extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		//getParameterを使って、前の画面から飛ばされた値を取得する
+
+		//getParameterを使って、商品選択購入画面から飛ばされた選択された個数の値を取得する
 		int sum=0;
-		String idItem0 = req.getParameter("idItem0");
-		String idItem1 = req.getParameter("idItem1");
-		String idItem2 = req.getParameter("idItem2");
-		String idItem3 = req.getParameter("idItem3");
 
-		String buyminus0 = req.getParameter("ItemCount0");
-		String buyminus1 = req.getParameter("ItemCount1");
-		String buyminus2 = req.getParameter("ItemCount2");
-		String buyminus3 = req.getParameter("ItemCount3");
+		String cabbageCount = req.getParameter("cabbageCount");
+		String ChinesecCabbageCount = req.getParameter("ChinesecCabbageCount");
+		String GinsengCount = req.getParameter("GinsengCount");
+		String tomatoCount = req.getParameter("tomatoCount");
 
-		System.out.println("ここから値渡しの確認");
-		System.out.println(idItem0);
-		System.out.println(idItem1);
-		System.out.println(idItem2);
-		System.out.println(idItem3);
-		System.out.println(buyminus0);
-		System.out.println(buyminus1);
-		System.out.println(buyminus2);
-		System.out.println(buyminus3);
+
+		String cabbageID = "1";
+		String ChinesecCabbageID = "2";
+		String GinsengID = "3";
+		String tomatoID = "4";
+
 
 		Connection con = dbutil.getConnection();
 		ManagementDAO itemdao = new ManagementDAO(con);
@@ -48,18 +42,20 @@ public class ProductBuyAction extends HttpServlet {
 
 		List<ManagementDTO> buyDataList = new ArrayList<ManagementDTO>();
 
+		//商品が一つも選択されなかった場合の処理
+
 
 
 		try {
-			itemdao.itemBuyUpdate(Integer.parseInt(idItem0), Integer.parseInt(buyminus0));
-			itemdao.itemBuyUpdate(Integer.parseInt(idItem1), Integer.parseInt(buyminus1));
-			itemdao.itemBuyUpdate(Integer.parseInt(idItem2), Integer.parseInt(buyminus2));
-			itemdao.itemBuyUpdate(Integer.parseInt(idItem3), Integer.parseInt(buyminus3));
+			itemdao.itemBuyUpdate(Integer.parseInt(cabbageID), Integer.parseInt(cabbageCount));
+			itemdao.itemBuyUpdate(Integer.parseInt(ChinesecCabbageID), Integer.parseInt(ChinesecCabbageCount));
+			itemdao.itemBuyUpdate(Integer.parseInt(GinsengID), Integer.parseInt(GinsengCount));
+			itemdao.itemBuyUpdate(Integer.parseInt(tomatoID), Integer.parseInt(tomatoCount));
 			//購入データ取得
-			dto0 = itemdao.buyItem(Integer.parseInt(idItem0));
-			dto1 = itemdao.buyItem(Integer.parseInt(idItem1));
-			dto2 = itemdao.buyItem(Integer.parseInt(idItem2));
-			dto3 = itemdao.buyItem(Integer.parseInt(idItem3));
+			dto0 = itemdao.buyItem(Integer.parseInt(cabbageID));
+			dto1 = itemdao.buyItem(Integer.parseInt(ChinesecCabbageID));
+			dto2 = itemdao.buyItem(Integer.parseInt(GinsengID));
+			dto3 = itemdao.buyItem(Integer.parseInt(tomatoID));
 
 			buyDataList.add(dto0);
 			buyDataList.add(dto1);
@@ -68,20 +64,19 @@ public class ProductBuyAction extends HttpServlet {
 			//各購入データの金額×個数をセットする
 
 			for(ManagementDTO data : buyDataList) {
-				if(data.getItem_id() == Integer.parseInt(idItem0)) {
-					data.setItem_price(data.getItem_price() * Integer.parseInt(buyminus0));
-				}else if(data.getItem_id() == Integer.parseInt(idItem1)) {
-					data.setItem_price(data.getItem_price() * Integer.parseInt(buyminus1));
-				}else if(data.getItem_id() == Integer.parseInt(idItem2)) {
-					data.setItem_price(data.getItem_price() * Integer.parseInt(buyminus2));
-				}else if(data.getItem_id() == Integer.parseInt(idItem3)) {
-					data.setItem_price(data.getItem_price() * Integer.parseInt(buyminus3));
+				if(data.getItem_id() == Integer.parseInt(cabbageID)) {
+					data.setItem_price(data.getItem_price() * Integer.parseInt(cabbageCount));
+				}else if(data.getItem_id() == Integer.parseInt(ChinesecCabbageID)) {
+					data.setItem_price(data.getItem_price() * Integer.parseInt(ChinesecCabbageCount));
+				}else if(data.getItem_id() == Integer.parseInt(GinsengID)) {
+					data.setItem_price(data.getItem_price() * Integer.parseInt(GinsengCount));
+				}else if(data.getItem_id() == Integer.parseInt(tomatoID)) {
+					data.setItem_price(data.getItem_price() * Integer.parseInt(tomatoCount));
 				}
 				sum+=data.getItem_price();
 			}
 
 
-			//itemdao.itemBuyUpdate(Integer.parseInt(idItem0),Integer.parseInt(idItem1), Integer.parseInt(idItem2), Integer.parseInt(idItem3),Integer.parseInt(buyminus0),Integer.parseInt(buyminus1),Integer.parseInt(buyminus2),Integer.parseInt(buyminus3));
 		} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -96,10 +91,10 @@ public class ProductBuyAction extends HttpServlet {
 		req.setAttribute("dto2", dto2);
 		req.setAttribute("dto3", dto3);
 
-		req.setAttribute("quantity0", buyminus0);
-		req.setAttribute("quantity1", buyminus1);
-		req.setAttribute("quantity2", buyminus2);
-		req.setAttribute("quantity3", buyminus3);
+		req.setAttribute("quantity0", cabbageID);
+		req.setAttribute("quantity1", ChinesecCabbageID);
+		req.setAttribute("quantity2", GinsengID);
+		req.setAttribute("quantity3", tomatoID);
 
 
 
