@@ -13,7 +13,7 @@ public class MemberDAO {
 	private static final String USER_NM = "user_name";
 	private static final String USER_KN = "user_kana";
 	private static final String USER_TEL = "tel_number";
-	private static final String MAILADDRESS = "uesr_mail";
+	private static final String MAILADDRESS = "user_mail";
 	private static final String PASSWORD = "user_password";
 	private static final String QUESTION = "question";
 	private static final String ANSWER = "answer";
@@ -87,7 +87,6 @@ public class MemberDAO {
 			this.stmt = con.prepareStatement(sql.toString());
 			stmt.setString(1, mail);
 			ResultSet rs = stmt.executeQuery();
-			System.out.println(stmt);
 			while (rs.next()) {
 				rtnList.setUser_id(rs.getInt(USER_ID));
 				rtnList.setUser_mail(rs.getString(MAILADDRESS));
@@ -102,7 +101,7 @@ public class MemberDAO {
 
 	public void mbrInsert(String name, String kana, String telnumber, String mail, String password,
 			String ques,
-			String ans, String address, String prefecture, String cardnumber, String city, String housenumber,
+			String ans, String address, String prefecture, String city, String housenumber, String cardnumber,
 			int code, int cardlimit, String meigi) throws SQLException {
 		//会員登録 //スペル変更済み
 		StringBuilder sql = new StringBuilder();
@@ -114,18 +113,11 @@ public class MemberDAO {
 				+ "," + "answer" + "," +"user_cardnumber"+ "," +"user_meigi"+ "," +"card_limit"+ "," + "user_code"
 				+ "," + "user_address" + "," + "user_prefecture" + "," + "uesr_city" + ","
 				+"user_housenumber" + ")");
-		//0外す〇
-		//カラム指定をしてINSERT〇
-		/*
-		 * INSERT INTO tbl_name (col_name1, col_name2, ...)
-		 * VALUES (value1, value2, ...)
-		 * */
 		sql.append(" VALUES " + "('" + name + "','" + kana + "','" + mail + "','" + telnumber + "','"
 				+ password + "','" + ques
 				+ "','" + ans + "','" + cardnumber + "','" + meigi + "'," + cardlimit + "," + code
 				+ ",'" + address + "','" + prefecture + "','" + city + "','"
 				+ housenumber + "');");
-		System.out.println(sql);
 		try {
 			this.stmt = con.prepareStatement(sql.toString());
 			result = stmt.executeUpdate();
@@ -133,6 +125,7 @@ public class MemberDAO {
 			dbutil.closeStatement(this.stmt);
 		}
 	}
+
 	public void memUpdate(String name, String knname, String tel, String mail, String pass, String question,
 			String answer, String address, String prefecture, String city, String housenum, String code, int limit,
 			String meigi) throws SQLException, ClassNotFoundException {

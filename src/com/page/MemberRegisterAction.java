@@ -1,17 +1,16 @@
 package com.page;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.MemberDAO;
-import src.util.dbutil;
+import logicCheck.MemberRegisterLogicCheck;
+import service.MemberRegisterService;
 
 public class MemberRegisterAction extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -31,54 +30,26 @@ public class MemberRegisterAction extends HttpServlet {
 		String code = req.getParameter("code");
 		String cardlimit = req.getParameter("cardlimit");
 		String meigi = req.getParameter("meigi");
-		System.out.println("値が入っているか確認～～～");
-		System.out.println(ques);
-		System.out.println(address);
-		System.out.println("ここまで");
-		/*System.out.println(name);
-		System.out.println(kana);
-		System.out.println(telnumber);*/
-		Connection con = dbutil.getConnection();
-		MemberDAO daoinsert = new MemberDAO(con);
-		try {
-			daoinsert.mbrInsert(name, kana, telnumber, mail, password, ques, ans, address,
-					prefecture, cardnumber, city, housenumber, Integer.parseInt(code),
-					Integer.parseInt(cardlimit), meigi);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		ArrayList<String> list = new ArrayList<>();
-		list.add(name);
-		list.add(kana);
-		list.add(telnumber);
-		list.add(mail);
-		list.add(password);
-		list.add(ques);
-		list.add(ans);
-		list.add(address);
-		list.add(prefecture);
-		list.add(cardnumber);
-		list.add(city);
-		list.add(housenumber);
-		list.add(code);
-		list.add(cardlimit);
-		list.add(meigi);
-		req.setAttribute("list", list);
-		/* req.setAttribute("user_name", "user_name");
-		 req.setAttribute("user_kana", "user_kana");
-		 req.setAttribute("tel_number ", "tel_number");
-		 req.setAttribute("user_mail", "user_mail");
-		 req.setAttribute("user_password", "user_password");
-		 req.setAttribute("answer","answer");
-		 req.setAttribute("question","question");
-		 req.setAttribute("address", "address");
-		 req.setAttribute("prefecture", "prefecture");
-		 req.setAttribute("city", "city");
-		 req.setAttribute(" housenumber ", "housenumber");
-		 req.setAttribute("card_limit","card_limit");
-		 req.setAttribute("user_code","user_code");
-		 req.setAttribute("user_meigi ","user_meigi");*/
+		MemberRegisterService memberRegisterService = new MemberRegisterService();
+		MemberRegisterLogicCheck memberRegisterLogicCheck = new MemberRegisterLogicCheck();
+		List<String> errorList;
 
+		try {
+			errorList = memberRegisterLogicCheck.memberRegisterLogicCheck(name, kana, telnumber, mail, password, ques,
+					ans, address, prefecture, city, housenumber, cardnumber,  code, cardlimit, meigi);
+			if(!(errorList == null || errorList.size() == 0)) {
+				req.setAttribute("error", errorList);
+				req.getRequestDispatcher("memberRegister.jsp").forward(req, res);
+			}
+			memberRegisterService.memberRegisterService(name, kana, telnumber, mail, password, ques, ans, address,
+					prefecture, city, housenumber, cardnumber, code, cardlimit, meigi);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			errorList = memberRegisterLogicCheck.unExpectedError();
+			req.setAttribute("error", errorList);
+			req.getRequestDispatcher("memberRegister.jsp").forward(req, res);
+		}
 		req.getRequestDispatcher("confirm.jsp").forward(req, res);
 	}
 }
