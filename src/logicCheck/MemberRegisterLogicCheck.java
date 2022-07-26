@@ -14,6 +14,7 @@ import commonprocess.CheckDuplicateDAO;
 import commonprocess.FormatCheck;
 import commonprocess.LengthCheck;
 import commonprocess.errormessage.ErrorMsg;
+import commonprocess.formatchecksub.HarfWidthAlphanumAtSignFormatCheck;
 import commonprocess.formatchecksub.HarfWidthAlphanumFormatCheck;
 import commonprocess.formatchecksub.HarfWidthNumFormatCheck;
 import commonprocess.formatchecksub.MailFormatCheck;
@@ -141,8 +142,9 @@ public class MemberRegisterLogicCheck {
 		if (lengthCheck.isMaxStringLength(mail, 256) == false) {
 			return errorMsg.returnErrorMsg(INPUT_MAX_LENGTH_ERROR_MESSAGE, msgElement);
 		}
+		FormatCheck harfWidthAlphanumAtSignFormatCheck = new HarfWidthAlphanumAtSignFormatCheck();
 		// 入力値が半角英数字ではない場合、エラーメッセージを返す
-		if (harfWidthAlphanumFormatCheck.isCorrectFormat(mail) == false) {
+		if (harfWidthAlphanumAtSignFormatCheck.isCorrectFormat(mail) == false) {
 			return errorMsg.returnErrorMsg(HALFWIDTH_ALPHANUMERIC_ERROR_MESSAGE, msgElement);
 		}
 		FormatCheck mailFormatCheck = new MailFormatCheck();

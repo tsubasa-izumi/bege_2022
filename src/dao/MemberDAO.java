@@ -13,7 +13,7 @@ public class MemberDAO {
 	private static final String USER_NM = "user_name";
 	private static final String USER_KN = "user_kana";
 	private static final String USER_TEL = "tel_number";
-	private static final String MAILADDRESS = "uesr_mail";
+	private static final String MAILADDRESS = "user_mail";
 	private static final String PASSWORD = "user_password";
 	private static final String QUESTION = "question";
 	private static final String ANSWER = "answer";
