@@ -78,11 +78,11 @@ public class MemberDAO {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT ");
 		sql.append("user_id, ");
-		sql.append("uesr_mail, ");
+		sql.append("user_mail, ");
 		sql.append("user_password");
 		sql.append(" FROM ");
 		sql.append("    " + TBL_NAME);
-		sql.append(" WHERE uesr_mail = ? ");
+		sql.append(" WHERE user_mail = ? ");
 		try {
 			this.stmt = con.prepareStatement(sql.toString());
 			stmt.setString(1, mail);
@@ -108,10 +108,10 @@ public class MemberDAO {
 		sql.append("INSERT");
 		sql.append(" INTO ");
 		sql.append(TBL_NAME);
-		sql.append( "(" + "user_name" + "," + "user_kana" + "," + "uesr_mail" + "," + "tel_number" + ","
+		sql.append( "(" + "user_name" + "," + "user_kana" + "," + "user_mail" + "," + "tel_number" + ","
 				+ "user_password" + "," +" question"
 				+ "," + "answer" + "," +"user_cardnumber"+ "," +"user_meigi"+ "," +"card_limit"+ "," + "user_code"
-				+ "," + "user_address" + "," + "user_prefecture" + "," + "uesr_city" + ","
+				+ "," + "user_address" + "," + "user_prefecture" + "," + "user_city" + ","
 				+"user_housenumber" + ")");
 		sql.append(" VALUES " + "('" + name + "','" + kana + "','" + mail + "','" + telnumber + "','"
 				+ password + "','" + ques

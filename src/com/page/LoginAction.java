@@ -30,7 +30,7 @@ public class LoginAction extends HttpServlet {
 
 		try {
 			loginData = loginService.loginService(mail);
-			errorList = loginLogicCheck.loginlogicCheck(loginData, mail, pass);
+			errorList = loginLogicCheck.loginlogicCheck(loginData, pass);
 			//errorListにエラーメッセージが格納されている場合、入力値とエラーメッセージをリクエストスコープにセットしてログイン画面に遷移する。
 			if(!(errorList == null || errorList.size() == 0)) {
 				req.setAttribute("error", errorList);
