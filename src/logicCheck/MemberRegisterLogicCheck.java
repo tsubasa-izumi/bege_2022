@@ -32,7 +32,7 @@ public class MemberRegisterLogicCheck {
 
 
 	/**
-	 * 入出値を引数に各項目のエラーチェックメソッドを呼び出し、エラーメッセージのリストを返す
+	 * 入力値を引数に各項目のエラーチェックメソッドを呼び出し、エラーメッセージのリストを返す
 	 * @param name
 	 * @param kana
 	 * @param telnumber
