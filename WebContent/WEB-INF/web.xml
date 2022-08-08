@@ -92,7 +92,7 @@
 		<servlet-name>memberEditConfirm</servlet-name>
 		<url-pattern>/memberEditConfirm.jsp</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
 		<servlet-name>memberDeleteAction</servlet-name>
 		<servlet-class>com.page.MemberDeleteAction</servlet-class>
 	</servlet>
@@ -101,12 +101,13 @@
 		<url-pattern>/memberDeleteAction.jsp</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>memberDeleteConfirm</servlet-name>
-		<servlet-class>com.page.MemberDeleteConfirmAction</servlet-class>
+		<servlet-name>logout</servlet-name>
+		<servlet-class>com.page.LogoutAction</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>memberDeleteConfirm</servlet-name>
-		<url-pattern>/memberDeleteConfirm.jsp</url-pattern>
+		<servlet-name>logout</servlet-name>
+		<url-pattern>/logOut</url-pattern>
 	</servlet-mapping>
+
 
 </web-app>
